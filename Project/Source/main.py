@@ -6,7 +6,7 @@ import datetime
 sys.path.insert(0, r'\Users\reza yousofvand\Desktop\OS_Project\Project\Algorithm')
 
 from processClass import process
-from ..Algorithm import *
+# from  ..Algorithm import FCFS
 
 
 
@@ -32,6 +32,8 @@ previous_process = None
 switch_context = 1
 
 start_program = str(datetime.datetime.now())
+start_program = start_program.replace(".","")
+start_program = start_program.replace(":","-")
 log_file = open(r"C:\Users\reza yousofvand\Desktop\OS_Project\Project\Log\\"+start_program+".txt","a")
 
 def log(text):
@@ -73,6 +75,7 @@ os.system("cls")
 
 algorithm_list = os.listdir(r"..\Algorithm")
 algorithm_list.remove("Template.py")
+algorithm_list.remove("__pycache__")
 print(str(algorithm_list))
 q1_algorithm = input("Please choose 1st Queue algorithm \n")
 while not (q1_algorithm in algorithm_list):
@@ -85,38 +88,6 @@ while not (q2_algorithm in algorithm_list):
 q3_algorithm = input("Please choose 3ed Queue algorithm \n")
 while not (q3_algorithm in algorithm_list):
     q3_algorithm = input("Error!\nPlease choose 3ed Queue algorithm \n")
-
-while True:
-    for i in process_list:
-        if i.entry == current_time:
-            queue1.append(i)
-            log("Process"+str(i.name)+" entered to queue1 at "+str(current_time))
-            process_list.remove(i)
-
-    if current_state == "Q1" and len(queue1) == 0:
-        current_state = "Q2"
-        previous_process = None
-        log("Processor change its Queue from queue1 to queue2 at "+str(current_time))
-
-    if current_state == "Q2" and len(queue2) == 0:
-        current_state = "Q3"
-        previous_process = None
-        log("Processor change its Queue from queue2 to queue3 at "+str(current_time))
-
-    if current_state == "Q3" and len(queue1) == 0 and len(queue2) == 0 and len(queue3) == 0 and len(process_list) == 0:
-        break
-    elif current_state == "Q3" and len(queue1) == 0 and len(queue2) == 0 and len(queue3) == 0 and len(process_list) != 0:
-        continue
-    elif current_state == "Q3" and len(queue3) == 0 and (len(queue1) != 0 or len(queue2) != 0):
-        if len(queue1) != 0:
-            current_state = "Q1"
-            previous_process = None
-            log("Processor change its Queue from queue3 to queue1 at " + str(current_time))
-
-        elif len(queue2) != 0:
-            current_state = "Q2"
-            previous_process = None
-            log("Processor change its Queue from queue3 to queue2 at " + str(current_time))
 
 def process(previous_process, current_time):
     for i in queue1:
@@ -135,6 +106,44 @@ def process(previous_process, current_time):
     previous_process.pass_time += 1
     previous_process.save()
     current_time += 1
+
+while True:
+    log("current time:"+str(current_time))
+    for i in process_list:
+        if i.entry >= current_time:
+            queue1.append(i)
+            log("Process"+str(i.name)+" entered to queue1 at "+str(current_time))
+            process_list.remove(i)
+
+    if current_state == "Q1" and len(queue1) == 0:
+        current_state = "Q2"
+        previous_process = None
+        log("Processor change its Queue from queue1 to queue2 at "+str(current_time))
+
+    if current_state == "Q2" and len(queue2) == 0:
+        current_state = "Q3"
+        previous_process = None
+        log("Processor change its Queue from queue2 to queue3 at "+str(current_time))
+
+    if len(queue1) == 0 and len(queue2) == 0 and len(queue3) == 0 and len(process_list) == 0:
+        break
+
+    if current_state == "Q3" and len(queue1) == 0 and len(queue2) == 0 and len(queue3) == 0 and len(process_list) == 0:
+        break
+    elif current_state == "Q3" and len(queue1) == 0 and len(queue2) == 0 and len(queue3) == 0 and len(process_list) != 0:
+        continue
+    elif current_state == "Q3" and len(queue3) == 0 and (len(queue1) != 0 or len(queue2) != 0):
+        if len(queue1) != 0:
+            current_state = "Q1"
+            previous_process = None
+            log("Processor change its Queue from queue3 to queue1 at " + str(current_time))
+
+        elif len(queue2) != 0:
+            current_state = "Q2"
+            previous_process = None
+            log("Processor change its Queue from queue3 to queue2 at " + str(current_time))
+
+
 ###----------------------------------------------#### First Queue ####--------------------------------------###
 ###----------------------------------------------#### ########### ####--------------------------------------###
 ###----------------------------------------------#### ########### ####--------------------------------------###
@@ -146,6 +155,10 @@ def process(previous_process, current_time):
         alg = importlib.import_module(q1_algorithm[:-3])
 
         alg.sort(queue1)
+        text= ""
+        for i in queue1:
+            text = text +","+ i.name
+        log("queue1 on "+str(current_time)+"is :"+text)
         if alg.pre_emptive == False:
             if previous_process is None:
                 previous_process = queue1[0]
@@ -246,6 +259,10 @@ def process(previous_process, current_time):
         alg = importlib.import_module(q2_algorithm[:-3])
 
         alg.sort(queue2)
+        text = ""
+        for i in queue2:
+            text = text + "," + i.name
+        log("queue2 on " + str(current_time) + "is :" + text)
         if alg.pre_emptive == False:
             if previous_process is None:
                 previous_process = queue2[0]
@@ -349,6 +366,10 @@ def process(previous_process, current_time):
         alg = importlib.import_module(q3_algorithm[:-3])
 
         alg.sort(queue3)
+        text = ""
+        for i in queue3:
+            text = text + "," + i.name
+        log("queue3 on " + str(current_time) + "is :" + text)
         if alg.pre_emptive == False:
             if previous_process is None:
                 previous_process = queue3[0]
@@ -424,6 +445,7 @@ def process(previous_process, current_time):
                 queue3.remove(previous_process)
                 previous_process = None
 
+    current_time +=1
 
 
 for i in finish_list:

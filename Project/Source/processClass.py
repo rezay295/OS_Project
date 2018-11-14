@@ -15,7 +15,7 @@ class process:
         self.start = start
         self.finish = finish
         self.wait = wait
-        file = open(r"..\Process\\"+str(self.name)+".text", "w")
+        file = open(r"..\Process\\"+str(self.name)+".txt", "w")
         dict = {"name":self.name, "time":self.time, "entry":self.entry, "priority":self.priority, "pass_time":self.pass_time,
                 "passed":self.passed, "start":self.start, "finish":self.finish, "wait":self.wait}
         jsonfile = json.dumps(dict)
@@ -23,7 +23,7 @@ class process:
         file.close()
 
     def save(self):
-        file = open(r"..\Process\\" + str(self.name) + ".text", "w")
+        file = open(r"..\Process\\" + str(self.name) + ".txt", "w")
         dict = {"name": self.name, "time": self.time, "entry": self.entry, "priority": self.priority, "pass_time": self.pass_time,
                 "passed": self.passed, "start": self.start, "finish": self.finish, "wait": self.wait}
         jsonfile = json.dumps(dict)
