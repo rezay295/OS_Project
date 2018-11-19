@@ -40,7 +40,7 @@ start_program = start_program.replace(":","-")
 log_file = open(r"C:\Users\reza yousofvand\Desktop\OS_Project\Project\Log\\"+start_program+".txt","a")
 
 def log(text):
-    T.sleep(1)
+    T.sleep(0.5)
     print(text)
     log_file.writelines(text+'\r\n')
 
@@ -96,6 +96,21 @@ if q1_algorithm == "RR":
         q3_algorithm = input("Please choose 3ed Queue algorithm \n")
         while not (q3_algorithm + ".py" in algorithm_list):
             q3_algorithm = input("Error!\nPlease choose 3ed Queue algorithm \n")
+
+os.system("cls")
+for i in process_list:
+    log("Process"+str(str(i.name))+" arrival Time: "+str(i.entry)+"  duration: "+str(i.time)+" priority: "+str(i.priority))
+    log("-------------------------------------------------------------------------------------------------------------------------")
+
+if q1_algorithm:
+    log("1st Queue algorithm" + str(q1_algorithm))
+
+if q2_algorithm:
+    log("2nd Queue algorithm" + str(q2_algorithm))
+
+if q3_algorithm:
+    log("3ed Queue algorithm" + str(q3_algorithm))
+
 
 def process(previous_process):
     for i in queue1:
@@ -283,7 +298,7 @@ while True:
 
     if current_state == "Q1":
         alg = importlib.import_module(q1_algorithm)
-        alg.sort(queue1)
+        queue1 = alg.sort(queue1)
         text = ""
         for i in queue1:
             text = text + str(str(i.name)) + ","
@@ -423,7 +438,7 @@ while True:
 
     elif current_state == "Q2":
         alg = importlib.import_module(q2_algorithm)
-        alg.sort(queue2)
+        queue2 = alg.sort(queue2)
         text = ""
         for i in queue2:
             text = text + str(str(i.name)) + ","
@@ -563,7 +578,7 @@ while True:
 
     elif current_state == "Q3":
         alg = importlib.import_module(q3_algorithm)
-        alg.sort(queue3)
+        queue3 = alg.sort(queue3)
         text = ""
         for i in queue3:
             text = text + str(str(i.name)) + ","

@@ -4,4 +4,4 @@ def pre_emptive():
 def sort(array):
     array = sorted(array, key=lambda k: k.time)
     array.reverse()
-    pass
+    return array
