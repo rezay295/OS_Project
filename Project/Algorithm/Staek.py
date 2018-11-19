@@ -3,4 +3,5 @@ def pre_emptive():
 
 def sort(array):
     array = sorted(array, key=lambda k: k.entry)
+    array.reverse()
     pass

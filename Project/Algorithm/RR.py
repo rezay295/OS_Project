@@ -1,5 +1,5 @@
 def pre_emptive():
-    return True
+    return False
 
 def sort(array):
     array = sorted(array, key=lambda k: k.entry)
