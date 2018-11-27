@@ -44,6 +44,8 @@ def log(text):
     print(text)
     log_file.writelines(text+'\r\n')
 
+os.system("cls")
+
 
 process_number=int(input("Please enter number of process:\n"))
 if process_number<1:
@@ -61,15 +63,24 @@ while i <=process_number:
     if entry == ""or not entry.isnumeric():
         while entry == ""or not entry.isnumeric():
             entry = input("Error!\nEnter Arrival Time of " +"process:"+str(i)+"\n")
+    elif int(entry)<0:
+        while entry == ""or not entry.isnumeric() or int(entry)<0:
+            entry = input("Error!\nEnter Arrival Time of " +"process:"+str(i)+"\n")
 
     time = input("Enter Duration of "+"process:"+str(i)+"\n")
     if time == "" or not time.isnumeric() :
         while time == "" or not time.isnumeric():
             time = input("Error!\nEnter Duration of "+"process:"+str(i)+"\n")
+    elif int(time) <= 0:
+        while time == "" or not time.isnumeric() or int(time) <= 0:
+            time = input("Error!\nEnter Duration of "+"process:"+str(i)+"\n")
 
     priority = input("Enter Priority of "+"process:"+str(i)+"\n")
     if priority == "" or not priority.isnumeric():
         while priority == "" or not priority.isnumeric():
+            priority = input("Error!\nEnter Priority of " +"process:"+str(i)+"\n")
+    elif int(priority) < 0:
+        while priority == "" or not priority.isnumeric() or int(priority) < 0:
             priority = input("Error!\nEnter Priority of " +"process:"+str(i)+"\n")
 
     process_list.append(process(i, int(entry), int(time), int(priority)))
@@ -97,7 +108,48 @@ if q1_algorithm == "RR":
         while not (q3_algorithm + ".py" in algorithm_list):
             q3_algorithm = input("Error!\nPlease choose 3ed Queue algorithm \n")
 
+
+
 os.system("cls")
+
+if q1_algorithm == "RR":
+    qunt = input("please enter 1st Queue quantum :\n")
+    if not qunt.isnumeric() or qunt == "":
+        while not qunt.isnumeric() or int(qunt)<=0:
+            print("Error!")
+            qunt = input("please enter 1st Queue quantum :\n")
+    elif int(qunt) <= 0:
+        while not qunt.isnumeric() or qunt == "" or int(qunt) <= 0:
+            print("Error!")
+            firstQ = input("please enter 1st Queue quantum :\n")
+    q1_quantom = int(qunt)
+
+if q2_algorithm == "RR":
+    qunt = input("please enter 2nd Queue quantum :\n")
+    if not qunt.isnumeric() or qunt == "":
+        while not qunt.isnumeric() or int(qunt) <= 0:
+            print("Error!")
+            qunt = input("please enter 1st Queue quantum :\n")
+    elif int(qunt) <= 0:
+        while not qunt.isnumeric() or qunt == "" or int(qunt) <= 0:
+            print("Error!")
+            qunt = input("please enter 1st Queue quantum :\n")
+    q2_quantom = int(qunt)
+
+os.system("cls")
+contex_s = input("Please enter switch context time :\n")
+if not contex_s.isnumeric() or contex_s == "":
+    while not contex_s.isnumeric() or contex_s == "":
+        print("Error !")
+        contex_s = input("Please enter switch context time :\n")
+elif int(contex_s) < 0:
+    while not contex_s.isnumeric() or contex_s == "" or int(contex_s) < 0:
+        print("Error !")
+        contex_s = input("Please enter switch context time :\n")
+switch_context = int(contex_s)
+
+os.system("cls")
+
 for i in process_list:
     log("Process"+str(str(i.name))+" arrival Time: "+str(i.entry)+"  duration: "+str(i.time)+" priority: "+str(i.priority))
     log("-------------------------------------------------------------------------------------------------------------------------")
