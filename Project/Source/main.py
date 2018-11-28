@@ -189,10 +189,11 @@ while True:
         if i.entry <= current_time:
             queue1.append(i)
             log("Process"+str(i.name)+" entered to queue1 at "+str(current_time))
-    for i in queue1:
-        for j in process_list:
-            if i==j:
-                process_list.remove(j)
+    for k in queue1:
+        for l in process_list:
+            if k == l:
+                process_list.remove(l)
+
 
     if len(queue1) != 0:
         if current_state !="Q1":
@@ -228,10 +229,10 @@ while True:
                                 log("current time:" + str(current_time +j))
                                 log("Process" + str(str(i.name)) + " entered to queue1 at " + str(current_time + j ))
                             j += 1
-                            for i in queue1:
-                                for j in process_list:
-                                    if i == j:
-                                        process_list.remove(j)
+                            for k in queue1:
+                                for l in process_list:
+                                    if k == l:
+                                        process_list.remove(l)
                 current_time = current_time +switch_context
                 text = "Processor change its Queue from "
                 if current_state == "Q2":
@@ -283,7 +284,7 @@ while True:
                             for i in queue1:
                                 for j in process_list:
                                     if i == j:
-                                        process_list.remove(j)
+                                        process_list.remove(l)
                 current_time = current_time +switch_context
                 text = "Processor change its Queue from "
                 if current_state == "Q1":
@@ -335,7 +336,7 @@ while True:
                             for i in queue1:
                                 for j in process_list:
                                     if i == j:
-                                        process_list.remove(j)
+                                        process_list.remove(l)
                 current_time = current_time +switch_context
                 text = "Processor change its Queue from "
                 if current_state == "Q1":
@@ -392,16 +393,21 @@ while True:
                             log("current time:" + str(current_time + j))
                             log("Process" + str(str(i.name)) + " entered to queue1 at " + str(current_time + j))
                         j += 1
-                        for i in queue1:
-                            for j in process_list:
-                                if i == j:
-                                    process_list.remove(j)
+                        for k in queue1:
+                            for l in process_list:
+                                if k == l:
+                                    process_list.remove(l)
             current_time = current_time + switch_context
             for i in queue1:
                 if i.name == previous_process.name:
                     i = previous_process
                     i.save()
             previous_process = queue1[0]
+            log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
+
+            if previous_process.pass_time == 0:
+                previous_process.start = current_time
+                previous_process.save()
             finish_pre = 0
             continue
 
@@ -409,7 +415,8 @@ while True:
             if previous_process is None:
                 previous_process = queue1[0]
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
-                if previous_process.start == 0:
+
+                if previous_process.pass_time == 0:
                     previous_process.start = current_time
                     previous_process.save()
 
@@ -436,10 +443,10 @@ while True:
                                 log("current time:" + str(current_time + j))
                                 log("Process" + str(str(i.name)) + " entered to queue1 at " + str(current_time + j))
                             j += 1
-                            for i in queue1:
-                                for j in process_list:
-                                    if i == j:
-                                        process_list.remove(j)
+                            for k in queue1:
+                                for l in process_list:
+                                    if k == l:
+                                        process_list.remove(l)
 
 
                     current_time = current_time + switch_context
@@ -448,10 +455,19 @@ while True:
                             i = previous_process
                             i.save()
                     previous_process = queue1[0]
+                    log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
+
+                    if previous_process.pass_time == 0:
+                        previous_process.start = current_time
+                        previous_process.save()
                     continue
 
 
             process(previous_process)
+            for i in queue1:
+                if previous_process.name == i.name:
+                    i = previous_process
+                    i.save()
             current_time += 1
             if previous_process.time == previous_process.pass_time:
                 log("Process" + str(previous_process.name) + " finished at " + str(current_time))
@@ -477,11 +493,15 @@ while True:
             if previous_process is None:
                 previous_process = queue1[0]
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
-                if previous_process.start == 0:
+                if previous_process.pass_time == 0:
                     previous_process.start = current_time
                     previous_process.save()
 
             process(previous_process)
+            for i in queue1:
+                if previous_process.name == i.name:
+                    i = previous_process
+                    i.save()
             current_time += 1
 
             if previous_process.time == previous_process.pass_time:
@@ -560,12 +580,10 @@ while True:
 
                         j += 1
 
-                        for i in queue1:
-
-                            for j in process_list:
-
-                                if i == j:
-                                    process_list.remove(j)
+                        for k in queue1:
+                            for l in process_list:
+                                if k == l:
+                                    process_list.remove(l)
 
             current_time = current_time + switch_context
 
@@ -577,7 +595,11 @@ while True:
                     i.save()
 
             previous_process = queue2[0]
+            log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+            if previous_process.pass_time == 0:
+                previous_process.start = current_time
+                previous_process.save()
             finish_pre = 0
 
             continue
@@ -590,6 +612,9 @@ while True:
 
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                if previous_process.pass_time == 0:
+                    previous_process.start = current_time
+                    previous_process.save()
 
 
             else:
@@ -634,12 +659,10 @@ while True:
 
                                 j += 1
 
-                                for i in queue1:
-
-                                    for j in process_list:
-
-                                        if i == j:
-                                            process_list.remove(j)
+                                for k in queue1:
+                                    for l in process_list:
+                                        if k == l:
+                                            process_list.remove(l)
 
                     current_time = current_time + switch_context
 
@@ -651,11 +674,18 @@ while True:
                             i.save()
 
                     previous_process = queue2[0]
+                    log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                    if previous_process.pass_time == 0:
+                        previous_process.start = current_time
+                        previous_process.save()
                     continue
 
             process(previous_process)
-
+            for i in queue2:
+                if previous_process.name == i.name:
+                    i = previous_process
+                    i.save()
             current_time += 1
 
             if previous_process.time == previous_process.pass_time:
@@ -702,8 +732,13 @@ while True:
 
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                if previous_process.pass_time == 0:
+                    previous_process.start = current_time
+                    previous_process.save()
             process(previous_process)
-
+            for i in queue2:
+                if previous_process.name == i.name:
+                    i = previous_process
             current_time += 1
 
             if previous_process.time == previous_process.pass_time:
@@ -801,7 +836,11 @@ while True:
                     i.save()
 
             previous_process = queue3[0]
+            log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+            if previous_process.pass_time == 0:
+                previous_process.start = current_time
+                previous_process.save()
             finish_pre = 0
 
             continue
@@ -814,6 +853,9 @@ while True:
 
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                if previous_process.pass_time == 0:
+                    previous_process.start = current_time
+                    previous_process.save()
 
 
             else:
@@ -870,11 +912,17 @@ while True:
                             i.save()
 
                     previous_process = queue3[0]
+                    log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                    if previous_process.pass_time == 0:
+                        previous_process.start = current_time
+                        previous_process.save()
                     continue
 
             process(previous_process)
-
+            for i in queue3:
+                if previous_process.name == i.name:
+                    i = previous_process
             current_time += 1
 
             if previous_process.time == previous_process.pass_time:
@@ -911,8 +959,13 @@ while True:
 
                 log("Process" + str(previous_process.name) + " get Processor at " + str(current_time))
 
+                if previous_process.pass_time == 0:
+                    previous_process.start = current_time
+                    previous_process.save()
             process(previous_process)
-
+            for i in queue3:
+                if previous_process.name == i.name:
+                    i = previous_process
             current_time += 1
 
             if previous_process.time == previous_process.pass_time:
