@@ -137,6 +137,10 @@ if q2_algorithm == "RR":
     q2_quantom = int(qunt)
 
 os.system("cls")
+log("first qunt :" + str(q1_quantom))
+log("first qunt :" + str(q2_quantom))
+input()
+os.system("cls")
 contex_s = input("Please enter switch context time :\n")
 if not contex_s.isnumeric() or contex_s == "":
     while not contex_s.isnumeric() or contex_s == "":
@@ -715,7 +719,7 @@ while True:
 
             elif q2_algorithm == "RR":
 
-                if previous_process.pass_time >= q2_quantom:
+                if previous_process.pass_time >= q2_quantom + q1_quantom:
                     log("Process" + str(previous_process.name) + " move from queue2 to queue3 at " + str(current_time))
 
                     queue3.append(previous_process)
@@ -994,6 +998,7 @@ while True:
                 previous_process = None
 
 finish_list = sorted(finish_list, key=lambda k: k.name)
+turn = 0
 twait=0
 count=0
 for i in finish_list:
@@ -1001,8 +1006,10 @@ for i in finish_list:
     log("Process"+str(str(i.name))+" arrival Time: "+str(i.entry)+"  duration: "+str(i.time)+" wait time: "+str(i.wait)+
         " complete: "+str(i.finish - i.entry )+" start: "+str(i.start)+" finish: "+str(i.finish))
     twait=twait+i.wait
+    turn = turn +(i.wait + i.time)
     count = count+1
 log("wait avrage : "+ str(twait/count))
+log("turn av : " + str((turn/count)))
 log_file.close()
 
 
